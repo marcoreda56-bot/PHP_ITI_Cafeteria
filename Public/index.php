@@ -23,10 +23,26 @@ switch ($url) {
         $controller = new \App\Controllers\AuthController();
         $controller->register();
         break;
+    
     case 'admin/home':
-        if ($_SESSION['role'] !== 'admin') { header("Location: index.php?url=login"); exit(); }
-        require_once ROOT_PATH . '/views/admin/dashboard.php';
-        break;
+    case 'admin/users':
+    case 'admin/products':
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
+        header("Location: index.php?url=login"); 
+        exit(); 
+    }
+    $controller = new \App\Controllers\AdminController();
+    
+    if ($url === 'admin/users') {
+        $controller->getUsers();
+    } 
+    elseif($url === 'admin/products'){
+        $controller->getProducts();
+    }
+    else {
+        $controller->index(); 
+    }
+    break;
     case 'admin/orders':
         if ($_SESSION['role'] !== 'admin') { header("Location: index.php?url=login"); exit(); }
         require_once ROOT_PATH . '../views/admin/dashboard.php';
