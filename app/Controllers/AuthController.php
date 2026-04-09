@@ -29,7 +29,7 @@ class AuthController {
                     header("Location: index.php?url=user/home");
                 }
             } else {
-                $error = "invalid inputs";
+                $error = "invalid email or password";
             }
         }
         require_once ROOT_PATH . '/views/auth/login.php';
