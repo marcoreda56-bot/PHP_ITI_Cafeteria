@@ -1,0 +1,17 @@
+{
+    "name": "marco/php_iti_project",
+    "autoload": {
+        "psr-4": {
+           "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "marco",
+            "email": "marcoreda56@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
