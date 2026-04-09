@@ -19,6 +19,10 @@ switch ($url) {
         $controller = new \App\Controllers\AuthController();
         $controller->login();
         break;
+    case 'register':
+        $controller = new \App\Controllers\AuthController();
+        $controller->register();
+        break;
     case 'admin/home':
         if ($_SESSION['role'] !== 'admin') { header("Location: index.php?url=login"); exit(); }
         require_once ROOT_PATH . '/views/admin/dashboard.php';
