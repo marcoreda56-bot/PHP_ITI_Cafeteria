@@ -19,9 +19,22 @@ class Admin extends DatabaseHandler{
         $sql = "INSERT INTO users (name, email, password, role, room_id ,profile_path) VALUES (?, ?, ?, ?, ?,?)";
         return $this->query($sql, [$name, $email, $hashpassword, $role, $room_id ,$profile_path]);
     }
-    public function getAllProduct(){
-        $sql = "SELECT * FROM products where is_deleted = 0";
-        return $this->query($sql);
+    public function getAllProduct($limit, $offset){
+        $sql = "SELECT product_name,price,product_img,status FROM products where is_deleted = 0 LIMIT $limit OFFSET $offset";
+        return $this->query($sql)->fetchAll();
+    }
+    public function countProducts() {
+    $sql = "SELECT COUNT(id) FROM products WHERE is_deleted = 0";
+    return $this->query($sql)->fetchColumn();
+}
+
+    public function getAllUsers(){
+        $sql = "SELECT * FROM users where is_deleted = 0";
+        return $this->query($sql)->fetchAll();
+    }
+    public function countUsers(){
+        $sql ="SELECT COUNT(id) FROM users WHERE is_deleted = 0";
+        return $this->query($sql)->fetchColumn();
     }
 }
 ?>
