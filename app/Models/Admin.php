@@ -36,5 +36,14 @@ class Admin extends DatabaseHandler{
         $sql ="SELECT COUNT(id) FROM users WHERE is_deleted = 0";
         return $this->query($sql)->fetchColumn();
     }
+    public function getAllCategory(){
+        $sql = "SELECT id,cat_name from category where is_deleted = 0";
+        return $this->query($sql)->fetchAll();
+    }
+
+   public function createProduct($name, $price, $img, $cat_id) {
+    $sql = "INSERT INTO products (product_name, price, product_img, cat_id, status) VALUES (?, ?, ?, ?, 'available')";
+    return $this->query($sql, [$name, $price, $img, $cat_id]);
+}
 }
 ?>

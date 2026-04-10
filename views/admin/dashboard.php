@@ -13,7 +13,6 @@
             color: #1e293b;
         }
 
-        /* --- Navbar Styling --- */
         .navbar {
             background: #ffffff !important;
             border-bottom: 1px solid #e2e8f0;
@@ -37,7 +36,6 @@
             color: #2563eb !important;
             position: relative;
         }
-        /* الخط الأزرق تحت الرابط النشط */
         @media (min-width: 992px) {
             .nav-link.active::after {
                 content: '';
@@ -51,7 +49,6 @@
             }
         }
 
-        /* --- User Profile Section --- */
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -74,7 +71,6 @@
             color: #64748b;
         }
 
-        /* --- Content Cards --- */
         .welcome-section {
             background: white;
             border-radius: 16px;
