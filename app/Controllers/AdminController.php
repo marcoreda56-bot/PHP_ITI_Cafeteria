@@ -75,7 +75,25 @@ class AdminController {
             'totalPages'  => $totalPages
         ]);
     }
+        public function deleteProduct() {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $this->adminModel->deleteProduct($id);
+        }
+        header("Location: index.php?url=admin/products");
+        exit();
+    }
 
+    public function editProduct() {
+        $id = $_GET['id'] ?? null;
+        $product = $this->adminModel->getProductById($id);
+        $categories = $this->adminModel->getAllCategory();
+        
+        $this->render('editProduct', [
+            'product' => $product,
+            'category' => $categories
+        ]);
+}
     private function render($viewName, $data = []) {
         extract($data);
         require_once ROOT_PATH . '/views/partials/navbar.php';

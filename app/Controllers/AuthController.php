@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\User;
+use App\Models\Auth;
 class AuthController {
     
     public function login() {
@@ -14,7 +14,7 @@ class AuthController {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $userModel = new User();
+            $userModel = new Auth();
             $user = $userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password'])) {  

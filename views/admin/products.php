@@ -4,10 +4,10 @@
             <h2 class="fw-bold text-dark mb-1">Products Management</h2>
             <p class="text-muted small mb-0">Manage your menu items, pricing, and availability.</p>
         </div>
-        <a href="index.php?url=admin/add-product" class="btn btn-primary px-4 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm">
-    <span style="font-size: 1.2rem; line-height: 1;">+</span>
-    <span>Add New Product</span>
-</a>
+        <button class="btn btn-primary px-4 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm">
+            <span style="font-size: 1.2rem; line-height: 1;">+</span>
+            <span>Add New Product</span>
+        </button>
     </div>
 
     <div class="bg-white rounded-4 border shadow-sm overflow-hidden">
