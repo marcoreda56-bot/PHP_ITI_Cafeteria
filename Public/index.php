@@ -29,6 +29,8 @@ switch ($url) {
     case 'admin/products':
     case 'admin/add-product':
     case 'admin/store-product':
+    case 'admin/delete-product':
+    case 'admin/edit-product':
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -46,6 +48,12 @@ switch ($url) {
     }
     elseif($url === 'admin/add-product'){
         $controller->addProduct(); 
+    }
+    elseif($url === 'admin/edit-product'){
+        $controller->editProduct();
+    }
+    elseif($url === 'admin/delete-product'){
+        $controller->deleteProduct();
     }
     else {
         $controller->index(); 

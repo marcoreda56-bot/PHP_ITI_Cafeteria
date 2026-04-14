@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\User;
+use App\Models\Auth;
 class AuthController {
     
     public function login() {
@@ -14,7 +14,7 @@ class AuthController {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $userModel = new User();
+            $userModel = new Auth();
             $user = $userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password'])) {  
@@ -40,7 +40,7 @@ class AuthController {
         session_start();
     }
 
-    $userModel = new User();
+    $userModel = new Auth();
         $error = null;
         $rooms = $userModel->getAllRooms();
     
@@ -61,7 +61,7 @@ class AuthController {
         }
 
         if (!$error) {
-            $userModel = new User();
+            $userModel = new Auth();
             if ($userModel->findByEmail($email)) {
                 $error = "Email already exists";
             }
@@ -91,7 +91,7 @@ class AuthController {
         }
         
         if (!$error) {
-            $userModel = new User();
+            $userModel = new Auth();
             $userModel->create($name, $email, $password, $profile_path,$room_num,'user');
             header("Location: index.php?url=login");
             exit();
