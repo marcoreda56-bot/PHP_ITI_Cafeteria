@@ -6,7 +6,10 @@
         </div>
         <button class="btn btn-primary px-4 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm">
             <span style="font-size: 1.2rem; line-height: 1;">+</span>
-            <span>Add New Product</span>
+            <span>
+                    <a class="nav-link <?= ($url == 'admin/home') ? 'active' : '' ?>" href="index.php?url=admin/add-product">Add New Product</a>
+
+            </span>
         </button>
     </div>
 
