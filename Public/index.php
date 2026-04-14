@@ -23,6 +23,10 @@ switch ($url) {
         $controller = new \App\Controllers\AuthController();
         $controller->register();
         break;
+    case 'forget':
+        $controller = new \App\Controllers\AuthController();
+        $controller->forgetPass();
+        break;
     
     case 'admin/home':
     case 'admin/users':

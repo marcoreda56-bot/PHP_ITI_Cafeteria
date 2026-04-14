@@ -100,6 +100,31 @@ class AuthController {
 
     require ROOT_PATH . '/views/auth/register.php';
 }
+public function forgetPass() {
+    $error = null;
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $conf_pass = $_POST['confirm_password'] ?? '';
+
+        if (empty($password) || $password !== $conf_pass) {
+            $error = "Passwords do not match or are empty";
+        } else {
+            $userModel = new Auth();
+            $user = $userModel->findByEmail($email);
+
+            if ($user) {
+                $userModel->forget($password, $email);
+                header("Location: index.php?url=login");
+                exit();
+            } else {
+                $error = "Email not found";
+            }
+        }
+    }
+    require_once ROOT_PATH . '/views/auth/forgetPass.php';
+}
     public function logout() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         session_destroy();

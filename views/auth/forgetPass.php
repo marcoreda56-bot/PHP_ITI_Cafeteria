@@ -67,7 +67,7 @@
         <div class="col-md-5 col-lg-4">
             
             <div class="text-center mb-4 welcome-text">
-                <h2 class="fw-bold">Welcome back</h2>
+                <h2 class="fw-bold">Forget Password</h2>
                 <p class="text-muted">Please enter your details</p>
             </div>
 
@@ -81,7 +81,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="index.php?url=login" method="post">
+                <form action="index.php?url=forget" method="post">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
                         <input type="email" class="form-control" id="email" name="email" 
@@ -92,20 +92,20 @@
                     <div class="mb-4">
                         <div class="d-flex justify-content-between">
                             <label for="password" class="form-label">Password</label>
-                            <a href="index.php?url=forget" class="text-decoration-none small fw-medium" style="color: #2563eb;">Forgot?</a>
                         </div>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between">
+                            <label for="password" class="form-label">Password</label>
+                        </div>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
                     <div class="d-grid">
-                        <button type="submit" name="submit" class="btn btn-primary">Sign in</button>
+                        <button type="submit" name="submit" class="btn btn-primary">submit</button>
                     </div>
                 </form>
             </div>
-            
-            <p class="text-center mt-4 text-muted small">
-                Don't have an account? <a href="index.php?url=register" class="text-decoration-none fw-semibold" style="color: #2563eb;">Sign up for free</a>
-            </p>
         </div>
     </div>
 </div>

@@ -75,7 +75,7 @@ class AdminController {
             'totalPages'  => $totalPages
         ]);
     }
-        public function deleteProduct() {
+    public function deleteProduct() {
         $id = $_GET['id'] ?? null;
         if ($id) {
             $this->adminModel->deleteProduct($id);
