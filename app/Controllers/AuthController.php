@@ -133,33 +133,62 @@ class AuthController {
         require_once ROOT_PATH . '/views/auth/forgetPass.php';
     }
 
-    private function sendResetEmail($to, $token) {
-        $mail = new PHPMailer(true);
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'sandbox.smtp.mailtrap.io'; 
-            $mail->SMTPAuth   = true;
-            $mail->Username   = '61dac24a92fdc6'; 
-            $mail->Password   = '93cd18966b88d2 i   '; 
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+   private function sendResetEmail($to, $token) {
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = $_ENV['SMTP_HOST']; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USER'];
+        $mail->Password   = $_ENV['SMTP_PASS'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-            $mail->setFrom('support@yourstore.com', 'Coffee Shop Support');
-            $mail->addAddress($to);
+        $mail->setFrom($_ENV['SMTP_USER'], 'Coffee Shop');
+        $mail->addAddress($to);
 
-            $resetLink = "http://localhost/PHP_ITI_Project/Public/index.php?url=reset-password&token=" . $token;
-            $mail->isHTML(true);
-            $mail->Subject = 'Password Reset Request';
-            $mail->Body    = "Click the link below to reset your password:<br><br>
-                            <a href='$resetLink'>$resetLink</a><br><br>
-                            This link will expire in 30 minutes.";
+        // هنا بنستخدم BASE_URL اللي في الـ .env عشان كل واحد يبعت الرابط الخاص بجهازه
+        $resetLink = $_ENV['BASE_URL'] . "index.php?url=reset-password&token=" . $token;
 
-            $mail->send();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        $mail->isHTML(true);
+        $mail->Subject = 'Reset Your Password - Coffe Shop';
+        $mail->Body = "
+        <div style='background-color: #f4f4f4; padding: 20px; font-family: Arial, sans-serif;'>
+            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);'>
+                <div style='background-color: #4e342e; padding: 30px; text-align: center;'>
+                    <h1 style='color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 2px;'>COFFEE SHOP</h1>
+                </div>
+                
+                <div style='padding: 40px; text-align: center; color: #333333;'>
+                    <h2 style='color: #4e342e;'>Forgot Your Password?</h2>
+                    <p style='font-size: 16px; line-height: 1.6; color: #666666;'>
+                        It happens to the best of us! Click the button below to reset your password. 
+                        This link will expire in 30 minutes.
+                    </p>
+                    
+                    <div style='margin-top: 30px;'>
+                        <a href='{$resetLink}' style='background-color: #795548; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>
+                            Reset Password
+                        </a>
+                    </div>
+                    
+                    <p style='margin-top: 30px; font-size: 12px; color: #999999;'>
+                        If you didn't request this, you can safely ignore this email.
+                    </p>
+                </div>
+                
+                <div style='background-color: #eeeeee; padding: 20px; text-align: center; font-size: 12px; color: #777777;'>
+                    &copy; " . date('Y') . " Coffee Shop Project. All rights reserved.
+                </div>
+            </div>
+        </div>
+        ";
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return false;
     }
+}
 
 
     public function resetPassword() {

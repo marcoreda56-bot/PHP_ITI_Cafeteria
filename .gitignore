@@ -1,3 +1,8 @@
+*.sql
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 /vendor/
-/php_project.sql
-.png
+*.log
+.env
