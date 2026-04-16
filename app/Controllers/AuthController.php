@@ -24,6 +24,9 @@ class AuthController {
                 $_SESSION['user_id']   = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['role']      = $user['role']; 
+                $_SESSION['profile_path'] = $user['profile_path'] ?? '';
+                $_SESSION['room_id'] = $user['room_id'] ?? null;
+                $_SESSION['email'] = $user['email'] ?? '';
 
                 if (strtolower($user['role']) === 'admin') {
                     header("Location: index.php?url=admin/home");

@@ -3,6 +3,8 @@ namespace App\Controllers;
 use App\Models\Admin;
 
 class AdminController {
+    protected $adminModel;
+
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         $this->adminModel = new Admin();

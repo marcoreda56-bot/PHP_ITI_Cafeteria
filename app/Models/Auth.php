@@ -9,6 +9,14 @@ class Auth extends DatabaseHandler {
         return $this->query($sql, [$email])->fetch();
     }
 
+    public function findById($id) {
+        $sql = "SELECT users.*, rooms.room_number
+                FROM users
+                LEFT JOIN rooms ON rooms.id = users.room_id
+                WHERE users.id = ? LIMIT 1";
+        return $this->query($sql, [$id])->fetch();
+    }
+
     public function getAllRooms()
     {
     $sql = "SELECT id, room_number FROM rooms";

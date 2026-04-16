@@ -68,11 +68,6 @@ switch ($url) {
         require_once ROOT_PATH . '../views/admin/dashboard.php';
         break;
 
-    case 'user/home':
-        if (!isset($_SESSION['user_id'])) { header("Location: index.php?url=login"); exit(); }
-        require_once ROOT_PATH . '/views/user/home.php';
-        break;
-
     case 'logout':
         $controller = new \App\Controllers\AuthController();
         $controller->logout();
@@ -81,4 +76,48 @@ switch ($url) {
         $controller = new \App\Controllers\AuthController();
         $controller->resetPassword();
         break;
+
+    case 'user/home':
+    case 'user/menu':
+    case 'user/cart':
+    case 'user/cart/add':
+    case 'user/cart/update':
+    case 'user/cart/remove':
+    case 'user/checkout':
+    case 'user/orders':
+    case 'user/order':
+    case 'user/order/cancel':
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?url=login");
+            exit();
+        }
+
+        $controller = new \App\Controllers\UserController();
+
+        if ($url === 'user/menu') {
+            $controller->menu();
+        } elseif ($url === 'user/cart') {
+            $controller->cart();
+        } elseif ($url === 'user/cart/add') {
+            $controller->addToCart();
+        } elseif ($url === 'user/cart/update') {
+            $controller->updateCart();
+        } elseif ($url === 'user/cart/remove') {
+            $controller->removeFromCart();
+        } elseif ($url === 'user/checkout') {
+            $controller->checkout();
+        } elseif ($url === 'user/orders') {
+            $controller->myOrders();
+        } elseif ($url === 'user/order') {
+            $controller->orderDetails();
+        } elseif ($url === 'user/order/cancel') {
+            $controller->cancelOrder();
+        } else {
+            $controller->home();
+        }
+        break;
+
+    default:
+        header("Location: index.php?url=login");
+        exit();
 }
