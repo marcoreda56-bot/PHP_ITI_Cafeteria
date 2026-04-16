@@ -137,7 +137,7 @@ class AuthController {
             $mail->Host       = 'sandbox.smtp.mailtrap.io'; 
             $mail->SMTPAuth   = true;
             $mail->Username   = '61dac24a92fdc6'; 
-            $mail->Password   = '93cd18966b88d2'; 
+            $mail->Password   = '93cd18966b88d2 i   '; 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
