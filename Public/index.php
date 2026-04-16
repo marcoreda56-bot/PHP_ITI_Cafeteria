@@ -77,5 +77,8 @@ switch ($url) {
         $controller = new \App\Controllers\AuthController();
         $controller->logout();
         break;
-    
+    case 'reset-password':
+        $controller = new \App\Controllers\AuthController();
+        $controller->resetPassword();
+        break;
 }

@@ -65,7 +65,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5 col-lg-4">
-            
+                <?php if (isset($_GET['reset']) && $_GET['reset'] === 'success'): ?>
+                 <div class="alert alert-success">
+                    Password updated successfully! You can now login.
+                </div>
+            <?php endif; ?>
             <div class="text-center mb-4 welcome-text">
                 <h2 class="fw-bold">Welcome back</h2>
                 <p class="text-muted">Please enter your details</p>

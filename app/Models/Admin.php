@@ -41,29 +41,29 @@ class Admin extends DatabaseHandler{
         return $this->query($sql)->fetchAll();
     }
 
-   public function createProduct($name, $price, $img, $cat_id) {
+    public function createProduct($name, $price, $img, $cat_id) {
     $sql = "INSERT INTO products (product_name, price, product_img, cat_id, status) VALUES (?, ?, ?, ?, 'available')";
     return $this->query($sql, [$name, $price, $img, $cat_id]);
-}
-public function deleteProduct($id) {
-    $sql = "UPDATE products SET is_deleted = 1 WHERE id = ?";
-    return $this->query($sql, [$id]);
-}
-
-
-public function getProductById($id) {
-    $sql = "SELECT * FROM products WHERE id = ?";
-    return $this->query($sql, [$id])->fetch();
-}
-
-public function updateProduct($id, $name, $price, $cat_id, $img = null) {
-    if ($img) {
-        $sql = "UPDATE products SET product_name = ?, price = ?, cat_id = ?, product_img = ? WHERE id = ?";
-        return $this->query($sql, [$name, $price, $cat_id, $img, $id]);
-    } else {
-        $sql = "UPDATE products SET product_name = ?, price = ?, cat_id = ? WHERE id = ?";
-        return $this->query($sql, [$name, $price, $cat_id, $id]);
     }
-}
-}
+
+    public function deleteProduct($id) {
+        $sql = "UPDATE products SET is_deleted = 1 WHERE id = ?";
+        return $this->query($sql, [$id]);
+    }
+
+    public function getProductById($id) {
+        $sql = "SELECT * FROM products WHERE id = ?";
+        return $this->query($sql, [$id])->fetch();
+    }
+
+    public function updateProduct($id, $name, $price, $cat_id, $img = null) {
+        if ($img) {
+            $sql = "UPDATE products SET product_name = ?, price = ?, cat_id = ?, product_img = ? WHERE id = ?";
+            return $this->query($sql, [$name, $price, $cat_id, $img, $id]);
+        } else {
+            $sql = "UPDATE products SET product_name = ?, price = ?, cat_id = ? WHERE id = ?";
+            return $this->query($sql, [$name, $price, $cat_id, $id]);
+        }
+    }
+    }
 ?>

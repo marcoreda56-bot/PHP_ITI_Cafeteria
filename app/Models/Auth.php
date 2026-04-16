@@ -31,4 +31,12 @@ class Auth extends DatabaseHandler {
            $sql = "UPDATE users set password = ? where email = ?";
            return $this->query($sql,[$hashpassword,$user_email]);
     }
+    public function updateResetToken($hash, $expiry, $email) {
+    $sql = "UPDATE users SET reset_token_hash = ?, reset_token_expires_at = ? WHERE email = ?";
+    return $this->query($sql, [$hash, $expiry, $email]);
+}
+public function findUserByToken($hash) {
+    $sql = "SELECT * FROM users WHERE reset_token_hash = ? AND reset_token_expires_at > NOW() LIMIT 1";
+    return $this->query($sql, [$hash])->fetch();
+}
 }
