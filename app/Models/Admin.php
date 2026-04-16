@@ -65,5 +65,14 @@ class Admin extends DatabaseHandler{
             return $this->query($sql, [$name, $price, $cat_id, $id]);
         }
     }
+    public function deletedProduct(){
+        $sql= "SELECT * FROM products where is_deleted = 1";
+        return $this->query($sql)->fetchAll();
+    }
+    public function restoreProduct($id){
+        $sql= "UPDATE products set is_deleted=0 where id =?";
+        return $this->query($sql,[$id]);
+    }
+    
     }
 ?>

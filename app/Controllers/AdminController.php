@@ -125,6 +125,20 @@ class AdminController {
         header("Location: index.php?url=admin/products");
         exit();
     }
+
+    public function getDeletedProducts() {
+    $products = $this->adminModel->deletedProduct();
+    $this->render('trash', ['products' => $products]);
+    }
+
+    public function restore() {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $this->adminModel->restoreProduct($id);
+        }
+        header("Location: index.php?url=admin/trash");
+        exit();
+    }
     private function render($viewName, $data = []) {
         extract($data);
         require_once ROOT_PATH . '/views/partials/navbar.php';
@@ -132,4 +146,5 @@ class AdminController {
         require_once ROOT_PATH . "/views/admin/{$viewName}.php";
         echo '</div>';
     }
+
 }

@@ -36,6 +36,8 @@ switch ($url) {
     case 'admin/delete-product':
     case 'admin/edit-product':
     case 'admin/update-product':
+    case 'admin/trash':
+    case 'admin/restore-product':
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -62,6 +64,12 @@ switch ($url) {
     }
     elseif($url === 'admin/delete-product'){
         $controller->deleteProduct();
+    }
+    elseif($url === 'admin/trash'){
+        $controller->getDeletedProducts();
+    }
+    elseif($url === 'admin/restore-product'){
+        $controller->restore();
     }
     else {
         $controller->index(); 

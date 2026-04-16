@@ -46,6 +46,12 @@
                 <li class="nav-item">
                     <a class="nav-link <?= ($url == 'admin/checks') ? 'active' : '' ?>" href="#">Checks</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= ($url == 'admin/trash') ? 'active' : '' ?>" 
+                    href="index.php?url=admin/trash">
+                 Trash
+                    </a>
+                </li>
             </ul>
 
             <div class="navbar-nav align-items-center">
