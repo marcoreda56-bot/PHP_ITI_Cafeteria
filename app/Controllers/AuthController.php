@@ -139,7 +139,6 @@ class AuthController {
             $mail->Username   = '3753d17950f6da'; 
             $mail->Password   = '94d24dd079f819'; 
             $mail->Port       = 2525;
-
             $mail->setFrom('support@yourstore.com', 'Coffee Shop Support');
             $mail->addAddress($to);
 
