@@ -3,6 +3,8 @@ namespace App\Controllers;
 use App\Models\Admin;
 
 class AdminController {
+    protected $adminModel;
+
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         $this->adminModel = new Admin();
@@ -126,6 +128,8 @@ class AdminController {
     private function render($viewName, $data = []) {
         extract($data);
         require_once ROOT_PATH . '/views/partials/navbar.php';
+        echo '<div class="container mt-4">';
         require_once ROOT_PATH . "/views/admin/{$viewName}.php";
+        echo '</div>';
     }
 }
