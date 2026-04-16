@@ -136,9 +136,11 @@ class AuthController {
             $mail->isSMTP();
             $mail->Host       = 'sandbox.smtp.mailtrap.io'; 
             $mail->SMTPAuth   = true;
-            $mail->Username   = '3753d17950f6da'; 
-            $mail->Password   = '94d24dd079f819'; 
-            $mail->Port       = 2525;
+            $mail->Username   = '61dac24a92fdc6'; 
+            $mail->Password   = '93cd18966b88d2'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
             $mail->setFrom('support@yourstore.com', 'Coffee Shop Support');
             $mail->addAddress($to);
 

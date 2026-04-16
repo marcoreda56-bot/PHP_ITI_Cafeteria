@@ -69,7 +69,7 @@ switch ($url) {
     break;
     case 'admin/orders':
         if ($_SESSION['role'] !== 'admin') { header("Location: index.php?url=login"); exit(); }
-        require_once ROOT_PATH . '../views/admin/dashboard.php';
+        require_once ROOT_PATH . '/views/admin/dashboard.php';
         break;
 
     case 'user/home':
