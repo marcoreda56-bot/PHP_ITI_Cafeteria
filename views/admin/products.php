@@ -53,16 +53,41 @@
                                 </td>
                                 <td class="pe-4 py-3 text-end">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <button class="btn btn-sm btn-action btn-edit" title="Edit">
+                                        <a href="index.php?url=admin/edit-product&id=<?= $product['id'] ?>" 
+                                        class="btn btn-sm btn-action btn-edit text-decoration-none" title="Edit">
                                             Edit
-                                        </button>
-                                        <button class="btn btn-sm btn-action btn-delete" title="Delete" onclick="return confirm('Are you sure you want to delete this product?')">
+                                        </a>
+                                        
+                                        <button class="btn btn-sm btn-action btn-delete" 
+                                            title="Delete" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal<?= $product['id'] ?>">
                                             Delete
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+
+                            <div class="modal fade" id="deleteModal<?= $product['id'] ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-header bg-danger text-white border-0">
+                                            <h5 class="modal-title fw-bold">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center py-4">
+                                            <div class="text-danger mb-3" style="font-size: 3rem;">⚠️</div>
+                                            <p class="mb-1 fw-bold text-dark fs-5">Are you sure?</p>
+                                            <p class="text-muted">You are about to delete <span class="fw-bold text-dark"><?= htmlspecialchars($product['product_name']) ?></span>. This action cannot be undone.</p>
+                                        </div>
+                                        <div class="modal-footer bg-light border-0 justify-content-center">
+                                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                                            <a href="index.php?url=admin/delete-product&id=<?= $product['id'] ?>" class="btn btn-danger px-4">Yes, Delete Product</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
                             <td colspan="4" class="text-center py-5">

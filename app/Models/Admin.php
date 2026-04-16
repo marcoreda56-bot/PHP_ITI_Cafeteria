@@ -20,7 +20,7 @@ class Admin extends DatabaseHandler{
         return $this->query($sql, [$name, $email, $hashpassword, $role, $room_id ,$profile_path]);
     }
     public function getAllProduct($limit, $offset){
-        $sql = "SELECT product_name,price,product_img,status FROM products where is_deleted = 0 LIMIT $limit OFFSET $offset";
+        $sql = "SELECT id,product_name,price,product_img,status FROM products where is_deleted = 0 LIMIT $limit OFFSET $offset";
         return $this->query($sql)->fetchAll();
     }
     public function countProducts() {

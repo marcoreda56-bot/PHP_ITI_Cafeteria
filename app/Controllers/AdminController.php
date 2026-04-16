@@ -75,6 +75,46 @@ class AdminController {
             'totalPages'  => $totalPages
         ]);
     }
+   
+    public function editProduct() {
+        $id = $_GET['id'] ?? null;
+        $product = $this->adminModel->getProductById($id);
+        
+        if (!$product) {
+            header("Location: index.php?url=admin/products");
+            exit();
+        }
+        
+        $categories = $this->adminModel->getAllCategory();
+        $this->render('editProduct', [
+            'product' => $product,
+            'category' => $categories
+        ]);
+    }
+    public function updateProduct() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $name = trim($_POST['product_name']);
+            $price = (float)$_POST['price'];
+            $cat_id = $_POST['category'];
+            
+            $imagePath = null;
+            if (!empty($_FILES['product_img']['name'])) {
+                $targetDir = "assets/products/";
+                $imagePath = $targetDir . time() . "_" . $_FILES['product_img']['name'];
+                move_uploaded_file($_FILES['product_img']['tmp_name'], $imagePath);
+            }
+
+            try {
+                $this->adminModel->updateProduct($id, $name, $price, $cat_id, $imagePath);
+                header("Location: index.php?url=admin/products");
+                exit();
+            } catch (\Exception $e) {
+                die("Error: " . $e->getMessage());
+            }
+        }
+    }
+
     public function deleteProduct() {
         $id = $_GET['id'] ?? null;
         if ($id) {
@@ -83,17 +123,6 @@ class AdminController {
         header("Location: index.php?url=admin/products");
         exit();
     }
-
-    public function editProduct() {
-        $id = $_GET['id'] ?? null;
-        $product = $this->adminModel->getProductById($id);
-        $categories = $this->adminModel->getAllCategory();
-        
-        $this->render('editProduct', [
-            'product' => $product,
-            'category' => $categories
-        ]);
-}
     private function render($viewName, $data = []) {
         extract($data);
         require_once ROOT_PATH . '/views/partials/navbar.php';
