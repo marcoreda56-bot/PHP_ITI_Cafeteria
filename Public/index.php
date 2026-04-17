@@ -30,6 +30,11 @@ switch ($url) {
     
     case 'admin/home':
     case 'admin/users':
+    case 'admin/addUser':
+    case 'admin/editUser':
+    case 'admin/deleteUser':
+    case 'admin/trashedUsers':
+    case 'admin/restoreUser':
     case 'admin/products':
     case 'admin/add-product':
     case 'admin/store-product':
@@ -38,6 +43,7 @@ switch ($url) {
     case 'admin/update-product':
     case 'admin/trash':
     case 'admin/restore-product':
+
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -70,6 +76,21 @@ switch ($url) {
     }
     elseif($url === 'admin/restore-product'){
         $controller->restore();
+    }
+    elseif($url === 'admin/addUser'){
+        $controller->addUser();
+    }
+    else if ($url === 'admin/editUser') {
+        $controller->editUser();
+    }
+    elseif($url === 'admin/deleteUser'){
+        $controller->deleteUser();
+    }
+    elseif($url === 'admin/trashedUsers'){
+        $controller->getTrashedUsers();
+    }
+    elseif($url === 'admin/restoreUser'){
+        $controller->restoreUser();
     }
     else {
         $controller->index(); 

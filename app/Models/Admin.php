@@ -19,6 +19,33 @@ class Admin extends DatabaseHandler{
         $sql = "INSERT INTO users (name, email, password, role, room_id ,profile_path) VALUES (?, ?, ?, ?, ?,?)";
         return $this->query($sql, [$name, $email, $hashpassword, $role, $room_id ,$profile_path]);
     }
+    //edit user
+    public function updateUser($id, $name, $email, $password, $profile_path ,$room_num,$role) {
+        $hashpassword = password_hash($password, PASSWORD_DEFAULT);
+        $room_id = $this->findRoomId($room_num);
+        $sql = "UPDATE users SET name = ?, email = ?, password = ?, role = ?, room_id = ?, profile_path = ? WHERE id = ?";
+        return $this->query($sql, [$name, $email, $hashpassword, $role, $room_id ,$profile_path, $id]);
+    }
+    public function deleteUser($id) {
+    $sql = "UPDATE users SET is_deleted = 1 WHERE id = ?";
+    return $this->query($sql, [$id]);
+    }
+    public function getTrashedUsers() {
+        $sql = "SELECT users.*, rooms.room_number 
+                FROM users 
+                LEFT JOIN rooms ON users.room_id = rooms.id 
+                WHERE users.is_deleted = 1";
+        return $this->query($sql)->fetchAll();
+    }
+
+    public function restoreUser($id) {
+        $sql = "UPDATE users SET is_deleted = 0 WHERE id = ?";
+        return $this->query($sql, [$id]);
+    }
+    public function getUserById($id) {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        return $this->query($sql, [$id])->fetch();
+    }
     public function getAllProduct($limit, $offset){
         $sql = "SELECT id,product_name,price,product_img,status FROM products where is_deleted = 0 LIMIT $limit OFFSET $offset";
         return $this->query($sql)->fetchAll();
