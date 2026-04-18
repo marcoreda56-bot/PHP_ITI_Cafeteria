@@ -44,7 +44,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link <?= ($url == 'admin/checks') ? 'active' : '' ?>" href="#">Checks</a>
+                    <a class="nav-link <?= ($url == 'admin/checks') ? 'active' : '' ?>" href="index.php?url=admin/checks">Checks</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= ($url == 'admin/trash') ? 'active' : '' ?>" 
@@ -69,7 +69,7 @@
                         <img src="<?= $userImg ?>" class="user-avatar shadow-sm">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="index.php?url=user/profile"><i class="bi bi-person me-2"></i> Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger fw-bold" href="index.php?url=logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                     </ul>
