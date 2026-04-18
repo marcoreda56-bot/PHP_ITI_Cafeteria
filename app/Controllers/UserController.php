@@ -169,11 +169,30 @@ class UserController {
 
         $error = null;
         $user = $this->authModel->findById($userId);
+        $rooms = $this->orderModel->getRooms();
+        $selectedRoomId = $user['room_id'] ?? ($_SESSION['room_id'] ?? null);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $paymentMethod = $_POST['payment_method'] ?? 'cash';
             $notes = trim($_POST['notes'] ?? '');
-            $roomId = $user['room_id'] ?? ($_SESSION['room_id'] ?? null);
+            $roomId = isset($_POST['room_id']) ? (int) $_POST['room_id'] : ($user['room_id'] ?? ($_SESSION['room_id'] ?? null));
+
+            // Validate selected room exists
+            if ($roomId) {
+                $found = false;
+                foreach ($rooms as $r) {
+                    if ((int) ($r['id'] ?? 0) === $roomId) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    throw new \InvalidArgumentException('Invalid room selection.');
+                }
+            }
+
+            $selectedRoomId = $roomId;
 
             try {
                 $orderId = $this->orderModel->placeOrder(
@@ -198,6 +217,8 @@ class UserController {
             'subtotal' => $subtotal,
             'itemsCount' => $itemsCount,
             'user' => $user,
+            'rooms' => $rooms,
+            'selectedRoomId' => $selectedRoomId,
             'error' => $error,
         ]);
     }

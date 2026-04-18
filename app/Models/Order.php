@@ -131,6 +131,11 @@ class Order extends DatabaseHandler {
         return $this->query($sql, [$id])->fetch();
     }
 
+    public function getRooms() {
+        $sql = "SELECT id, room_number, ext FROM rooms ORDER BY room_number ASC";
+        return $this->query($sql)->fetchAll();
+    }
+
     public function getAllOrders() {
         $sql = "SELECT o.id, o.user_id, u.name, u.email, o.room_id, r.room_number, o.status, 
                        o.total_price, o.notes, o.created_at,

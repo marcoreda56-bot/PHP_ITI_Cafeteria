@@ -19,7 +19,19 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Room</label>
-                            <input type="text" class="form-control rounded-4" value="<?= htmlspecialchars($user['room_number'] ?? ($_SESSION['room_number'] ?? 'Not set')) ?>" disabled>
+                            <?php if (!empty($rooms) && is_array($rooms)): ?>
+                                <select name="room_id" class="form-select rounded-4" required>
+                                    <?php foreach ($rooms as $room):
+                                        $rid = (int) ($room['id'] ?? 0);
+                                        $label = htmlspecialchars(($room['room_number'] ?? '') . (empty($room['ext']) ? '' : ' - ' . $room['ext']));
+                                        $sel = ((int) ($selectedRoomId ?? ($user['room_id'] ?? ($_SESSION['room_id'] ?? 0))) === $rid) ? 'selected' : '';
+                                    ?>
+                                        <option value="<?= $rid ?>" <?= $sel ?>><?= $label ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php else: ?>
+                                <input type="text" class="form-control rounded-4" value="<?= htmlspecialchars($user['room_number'] ?? ($_SESSION['room_number'] ?? 'Not set')) ?>" disabled>
+                            <?php endif; ?>
                         </div>
                     </div>
 
