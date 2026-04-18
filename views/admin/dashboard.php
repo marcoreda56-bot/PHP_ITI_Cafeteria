@@ -34,12 +34,12 @@
                 <h2 class="fw-bold mb-0">EGP <?= number_format($totalRevenue, 2); ?></h2>
                 <small class="text-success fw-medium">All processed orders</small>
             </div>
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <p class="text-muted small fw-bold text-uppercase mb-2">Active Users</p>
-                    <h2 class="fw-bold mb-0"><?php echo $nUsers ?? 0; ?></h2>
-                    <small class="text-primary fw-medium">Across all regions</small>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <p class="text-muted small fw-bold text-uppercase mb-2">Active Users</p>
+                <h2 class="fw-bold mb-0"><?php echo $nUsers ?? 0; ?></h2>
+                <small class="text-primary fw-medium">Across all regions</small>
             </div>
         </div>
         <div class="col-md-3">
