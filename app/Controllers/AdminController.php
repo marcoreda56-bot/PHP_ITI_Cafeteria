@@ -11,8 +11,14 @@ class AdminController {
     }
 
     public function index() {
-        $nUsers = $this->adminModel->countUsers();
-        $this->render('dashboard',['nUsers' => $nUsers]);
+        $data = [
+                'nUsers'         => $this->adminModel->countUsers(),
+                'nProducts'      => $this->adminModel->countProducts(),
+                'totalRevenue'   => $this->adminModel->getTotalRevenue(),
+                'pendingOrders'  => $this->adminModel->countPendingOrders(),
+                'completedOrders'=> $this->adminModel->countCompletedOrders()
+            ];
+        $this->render('dashboard', $data);
     }
 
     public function getUsers() {

@@ -100,6 +100,19 @@ class Admin extends DatabaseHandler{
         $sql= "UPDATE products set is_deleted=0 where id =?";
         return $this->query($sql,[$id]);
     }
-    
+    public function getTotalRevenue() {
+    $sql = "SELECT SUM(total_price) FROM orders WHERE status != 'cancelled'";
+    return $this->query($sql)->fetchColumn() ?: 0;
+    }
+
+    public function countPendingOrders() {
+        $sql = "SELECT COUNT(id) FROM orders WHERE status = 'processing'";
+        return $this->query($sql)->fetchColumn();
+    }
+
+    public function countCompletedOrders() {
+        $sql = "SELECT COUNT(id) FROM orders WHERE status = 'delivered'";
+        return $this->query($sql)->fetchColumn();
+    }
     }
 ?>
