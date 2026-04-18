@@ -20,10 +20,126 @@ class AdminController {
         $users = $this->adminModel->getAllUsers();
         $this->render('users', ['users' => $users]);
     }
+    //delete user 
+    public function deleteUser() {
+        $id = $_GET['id'] ?? null;
 
-    public function addProduct() {
-        $categories = $this->adminModel->getAllCategory();
+        if ($id) {
+            $this->adminModel->deleteUser($id);
+        }
+
+        header("Location: index.php?url=admin/users");
+        exit();
+    }
+    // add user
+    public function addUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = trim($_POST['name']);
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+            $room_num = $_POST['room_number'] ?? null;
+            $role = $_POST['role'] ?? 'user';
+
+            try {
+                $targetDir = "assets/users/"; 
+                if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+
+                $imgName = $_FILES['profile_picture']['name'];
+                $imagePath = $targetDir . time() . "_" . $imgName;
+
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $imagePath)) {
+                    $this->adminModel->create($name, $email, $password, $imagePath, $room_num, $role);
+                    
+                    header("Location: index.php?url=admin/users");
+                    exit();
+                } else {
+                    $errorMsg = "Failed to upload image.";
+                    }
+                    } catch (\PDOException $e) {
+                        $rooms = $this->adminModel->getAllRooms();
+                        $errorMsg = ($e->getCode() == 23000) ? "Email '$email' is already registered!" : "Error: " . $e->getMessage();
+                        
+                        return $this->render('addUser', [
+                            'rooms' => $rooms,
+                            'error' => $errorMsg
+                            ]);
+                            }
+                            }
+                            
+                            // GET Request: Show the form
+                            $rooms = $this->adminModel->getAllRooms();
+                            $this->render('addUser', ['rooms' => $rooms]);
+                            }
+                            
+                            public function addProduct() {
+                                $categories = $this->adminModel->getAllCategory();
         $this->render('addProduct', ['category' => $categories]); 
+    }
+    //edit user
+    public function editUser() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: index.php?url=admin/users");
+            exit();
+        }
+
+        // 1. Fetch existing user data to populate the form
+        $user = $this->adminModel->getUserById($id);
+        $rooms = $this->adminModel->getAllRooms();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = trim($_POST['name']);
+            $email = trim($_POST['email']);
+            $room_num = $_POST['room_number'];
+            $role = $_POST['role'];
+            
+            // Logic for Password: Only hash and update if the user typed a new one
+            if (!empty($_POST['password'])) {
+                $password = $_POST['password'];
+            } else {
+                // If empty, we need to keep the old password (requires a specific Model method or logic)
+                $password = $user['password'];
+            }
+
+            // Logic for Image: Keep old image if a new one isn't uploaded
+            $imagePath = $user['profile_path'];
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === 0) {
+                $targetDir = "assets/users/";
+                if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+                
+                $newPath = $targetDir . time() . "_" . $_FILES['profile_picture']['name'];
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $newPath)) {
+                    $imagePath = $newPath;
+                }
+            }
+
+            try {
+                $this->adminModel->updateUser($id, $name, $email, $password, $imagePath, $room_num, $role);
+                header("Location: index.php?url=admin/users");
+                exit();
+            } catch (\PDOException $e) {
+                $errorMsg = "Update failed: " . $e->getMessage();
+            }
+        }
+
+        $this->render('editUser', [
+            'user'  => $user,
+            'rooms' => $rooms,
+            'error' => $errorMsg ?? null
+        ]);
+    }
+    public function getTrashedUsers() {
+        $users = $this->adminModel->getTrashedUsers();
+        $this->render('trashedUsers', ['users' => $users]);
+    }
+
+    public function restoreUser() {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $this->adminModel->restoreUser($id);
+        }
+        header("Location: index.php?url=admin/trashedUsers");
+        exit();
     }
 
     public function storeProduct() {

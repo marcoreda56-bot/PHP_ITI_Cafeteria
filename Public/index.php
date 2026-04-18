@@ -38,6 +38,11 @@ switch ($url) {
     
     case 'admin/home':
     case 'admin/users':
+    case 'admin/addUser':
+    case 'admin/editUser':
+    case 'admin/deleteUser':
+    case 'admin/trashedUsers':
+    case 'admin/restoreUser':
     case 'admin/products':
     case 'admin/add-product':
     case 'admin/store-product':
@@ -46,7 +51,11 @@ switch ($url) {
     case 'admin/update-product':
     case 'admin/trash':
     case 'admin/restore-product':
+<<<<<<< HEAD
     case 'admin/checks':
+=======
+
+>>>>>>> origin/main
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -80,11 +89,28 @@ switch ($url) {
     elseif($url === 'admin/restore-product'){
         $controller->restore();
     }
+<<<<<<< HEAD
     elseif($url === 'admin/checks'){
         $user_id = $_GET['user_id'] ?? null;
         $startDate = $_GET['start_date'] ?? null;
         $endDate = $_GET['end_date'] ?? null;
         $controller->getChecks($user_id, $startDate, $endDate);
+=======
+    elseif($url === 'admin/addUser'){
+        $controller->addUser();
+    }
+    else if ($url === 'admin/editUser') {
+        $controller->editUser();
+    }
+    elseif($url === 'admin/deleteUser'){
+        $controller->deleteUser();
+    }
+    elseif($url === 'admin/trashedUsers'){
+        $controller->getTrashedUsers();
+    }
+    elseif($url === 'admin/restoreUser'){
+        $controller->restoreUser();
+>>>>>>> origin/main
     }
     else {
         $controller->index(); 

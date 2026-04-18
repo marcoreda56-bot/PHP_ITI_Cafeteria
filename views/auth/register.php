@@ -1,158 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Account</title>
+    <title>Join The Brew Hub - Register</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Balthazar&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --accent-color: #d4a373;
+            --dark-brew: #1a1a1a;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--dark-brew);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .register-card {
-            border: none;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.9)),
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+
+        .brand-logo {
+            font-family: 'Balthazar', serif;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+        }
+
+        /* Inputs */
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            background: #ffffff;
+            padding: 12px;
+            color: #fff;
+
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
-        .form-label {
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-bottom: 0.5 hidden;
+        .form-control::placeholder {
+            color: #aaa;
         }
 
-        .form-control,
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(212,163,115,.2);
+            color: #fff;
+        }
+
+        /* Dropdown arrow fix */
         .form-select {
-            padding: 0.6rem 0.75rem;
-            border-color: #e2e8f0;
-            border-radius: 8px;
+            padding-right: 40px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath stroke='%23d4a373' stroke-width='2' fill='none' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
         }
 
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        /* dropdown colors */
+        .form-select option {
+            background: #1a1a1a;
+            color: #fff;
         }
 
-        .btn-primary {
-            background-color: #2563eb;
+        /* buttons */
+        .btn-brew {
+            background: var(--accent-color);
             border: none;
-            padding: 0.7rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: all 0.2s;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 12px;
+            width: 100%;
         }
 
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-1px);
+        .btn-brew:hover {
+            background: #faedcd;
         }
 
-        .btn-light {
-            background-color: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            font-weight: 500;
+        .btn-reset {
+            background: transparent;
+            border: none;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .btn-reset:hover {
+            color: #fff;
         }
 
         .error-message {
-            background-color: #fef2f2;
-            color: #991b1b;
-            border-radius: 8px;
-            padding: 10px;
+            background: rgba(220,53,69,0.1);
+            border: 1px solid rgba(220,53,69,0.2);
+            color: #ff8080;
+            border-radius: 12px;
+            padding: 12px;
             font-size: 0.85rem;
-            border: 1px solid #fee2e2;
+        }
+
+        .login-link {
+            color: var(--accent-color);
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="text-center mb-4">
-                    <h2 class="fw-bold">Create Account</h2>
-                    <p class="text-muted">Join our community today</p>
-                </div>
+<div class="glass-card">
 
-                <div class="card register-card p-4">
-                    <?php if (isset($error)): ?>
-                        <div class="error-message mb-3 d-flex align-items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="18" height="18" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <?= htmlspecialchars($error) ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <form action="index.php?url=register" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="John Doe"
-                                required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="name@example.com" required>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="confirm_password" class="form-label">Confirm</label>
-                                <input type="password" class="form-control" id="confirm_password"
-                                    name="confirm_password" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="room_number" class="form-label">Room Number</label>
-                            <select class="form-select" id="room_number" name="room_number" required>
-                                <option value="">Select a Room</option>
-                                <?php if (!empty($rooms)): ?>
-                                    <?php foreach ($rooms as $room): ?>
-                                        <option value="<?= $room['room_number'] ?>">
-                                            Room <?= $room['room_number'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="profile_picture" class="form-label">Profile Picture</label>
-                            <input class="form-control form-control-sm" type="file" id="profile_picture"
-                                name="profile_picture" accept="image/*" required>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" name="submit" class="btn btn-primary">Sign Up</button>
-                            <button type="reset" class="btn btn-light">Reset</button>
-                        </div>
-                    </form>
-                </div>
-
-                <p class="text-center mt-4 text-muted small">
-                    Already have an account? <a href="index.php?url=login" class="text-decoration-none">Log in</a>
-                </p>
-            </div>
-        </div>
+    <div class="text-center mb-4">
+        <h2 class="brand-logo">Join The Hub</h2>
+        <p style="color:#aaa">Create your account</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <?php if (isset($error)): ?>
+        <div class="error-message mb-3">
+            <?= htmlspecialchars($error) ?>
+        </div>
+    <?php endif; ?>
 
+    <form action="index.php?url=register" method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="name" placeholder="John Doe" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Confirm</label>
+                <input type="password" class="form-control" name="confirm_password" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Room Number</label>
+            <select class="form-select" name="room_number" required>
+                <option value="">Select Room</option>
+                <?php foreach ($rooms as $room): ?>
+                    <option value="<?= $room['room_number'] ?>">
+                        Room <?= $room['room_number'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Profile Picture</label>
+            <input class="form-control" type="file" name="profile_picture" accept="image/*" required>
+        </div>
+
+        <button class="btn btn-brew">Create Account</button>
+        <button type="reset" class="btn-reset">Reset</button>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="index.php?url=login" class="login-link">Already have account?</a>
+    </div>
+
+</div>
+
+</body>
 </html>
