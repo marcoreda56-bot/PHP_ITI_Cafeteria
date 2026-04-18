@@ -55,8 +55,8 @@ class Admin extends DatabaseHandler{
     return $this->query($sql)->fetchColumn();
 }
 
-    public function getAllUsers(){
-        $sql = "SELECT * FROM users where is_deleted = 0";
+    public function getAllUsers($limit, $offset){
+        $sql = "SELECT * FROM users where is_deleted = 0 LIMIT $limit OFFSET $offset";
         return $this->query($sql)->fetchAll();
     }
     public function countUsers(){

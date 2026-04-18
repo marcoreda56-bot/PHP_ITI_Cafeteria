@@ -16,8 +16,22 @@ class AdminController {
     }
 
     public function getUsers() {
-        $users = $this->adminModel->getAllUsers();
-        $this->render('users', ['users' => $users]);
+        $limit = 7;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+        
+        $totalUsersCount = $this->adminModel->countUsers();
+        $totalPages = ceil($totalUsersCount / $limit);
+        
+        $users = $this->adminModel->getAllUsers($limit, $offset);
+        
+        $this->render('users', [
+            'users'       => $users,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages
+        ]);
     }
     //delete user 
     public function deleteUser() {
