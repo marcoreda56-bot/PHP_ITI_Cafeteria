@@ -130,4 +130,18 @@ class Order extends DatabaseHandler {
 
         return $this->query($sql, [$id])->fetch();
     }
+
+    public function getAllOrders() {
+        $sql = "SELECT o.id, o.user_id, u.name, u.email, o.room_id, r.room_number, o.status, 
+                       o.total_price, o.notes, o.created_at,
+                       (SELECT COUNT(*) FROM order_items oi WHERE oi.order_id = o.id) AS items_count,
+                       c.payment_method, c.paid_at
+                FROM orders o
+                LEFT JOIN users u ON o.user_id = u.id
+                LEFT JOIN rooms r ON o.room_id = r.id
+                LEFT JOIN checks c ON c.order_id = o.id
+                ORDER BY o.created_at DESC, o.id DESC";
+
+        return $this->query($sql)->fetchAll();
+    }
 }

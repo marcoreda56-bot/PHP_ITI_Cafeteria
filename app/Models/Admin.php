@@ -64,7 +64,12 @@ class Admin extends DatabaseHandler{
         return $this->query($sql)->fetchColumn();
     }
     public function getAllCategory(){
-        $sql = "SELECT id,cat_name from category where is_deleted = 0";
+        $sql = "SELECT c.id, c.cat_name, COUNT(p.id) as products_count
+                FROM category c
+                LEFT JOIN products p ON c.id = p.cat_id AND p.is_deleted = 0
+                WHERE c.is_deleted = 0
+                GROUP BY c.id, c.cat_name
+                ORDER BY c.cat_name";
         return $this->query($sql)->fetchAll();
     }
 
@@ -117,6 +122,21 @@ class Admin extends DatabaseHandler{
     public function createCategory($category_name ){
         $sql = "INSERT INTO category(cat_name) values(?)";
         return $this->query($sql,[trim($category_name)]);
+    }
+    
+    public function getCategoryById($id) {
+        $sql = "SELECT id, cat_name FROM category WHERE id = ? AND is_deleted = 0";
+        return $this->query($sql, [$id])->fetch();
+    }
+    
+    public function updateCategory($id, $cat_name) {
+        $sql = "UPDATE category SET cat_name = ? WHERE id = ?";
+        return $this->query($sql, [trim($cat_name), $id]);
+    }
+    
+    public function deleteCategory($id) {
+        $sql = "UPDATE category SET is_deleted = 1 WHERE id = ?";
+        return $this->query($sql, [$id]);
     }
     }
 ?>
