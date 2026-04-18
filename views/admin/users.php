@@ -50,5 +50,24 @@
         </table>
     </div>
 </div>
+<?php if ($totalPages > 1): ?>
+<nav aria-label="User navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?= ($currentPage <= 1) ? 'disabled' : '' ?>">
+            <a class="page-link" href="index.php?url=admin/users&page=<?= $currentPage - 1 ?>">Previous</a>
+        </li>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?= ($currentPage == $i) ? 'active' : '' ?>">
+                <a class="page-link" href="index.php?url=admin/users&page=<?= $i ?>"><?= $i ?></a>
+            </li>
+        <?php endfor; ?>
+
+        <li class="page-item <?= ($currentPage >= $totalPages) ? 'disabled' : '' ?>">
+            <a class="page-link" href="index.php?url=admin/users&page=<?= $currentPage + 1 ?>">Next</a>
+        </li>
+    </ul>
+</nav>
+<?php endif; ?>
 </body>
 </html>

@@ -13,13 +13,33 @@ class AdminController {
     }
 
     public function index() {
-        $nUsers = $this->adminModel->countUsers();
-        $this->render('dashboard',['nUsers' => $nUsers]);
+        $data = [
+                'nUsers'         => $this->adminModel->countUsers(),
+                'nProducts'      => $this->adminModel->countProducts(),
+                'totalRevenue'   => $this->adminModel->getTotalRevenue(),
+                'pendingOrders'  => $this->adminModel->countPendingOrders(),
+                'completedOrders'=> $this->adminModel->countCompletedOrders()
+            ];
+        $this->render('dashboard', $data);
     }
 
     public function getUsers() {
-        $users = $this->adminModel->getAllUsers();
-        $this->render('users', ['users' => $users]);
+        $limit = 7;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+        
+        $totalUsersCount = $this->adminModel->countUsers();
+        $totalPages = ceil($totalUsersCount / $limit);
+        
+        $users = $this->adminModel->getAllUsers($limit, $offset);
+        
+        $this->render('users', [
+            'users'       => $users,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages
+        ]);
     }
     //delete user 
     public function deleteUser() {

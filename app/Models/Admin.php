@@ -55,8 +55,8 @@ class Admin extends DatabaseHandler{
     return $this->query($sql)->fetchColumn();
 }
 
-    public function getAllUsers(){
-        $sql = "SELECT * FROM users where is_deleted = 0";
+    public function getAllUsers($limit, $offset){
+        $sql = "SELECT * FROM users where is_deleted = 0 LIMIT $limit OFFSET $offset";
         return $this->query($sql)->fetchAll();
     }
     public function countUsers(){
@@ -104,6 +104,20 @@ class Admin extends DatabaseHandler{
     public function restoreProduct($id){
         $sql= "UPDATE products set is_deleted=0 where id =?";
         return $this->query($sql,[$id]);
+    }
+    public function getTotalRevenue() {
+    $sql = "SELECT SUM(total_price) FROM orders WHERE status != 'cancelled'";
+    return $this->query($sql)->fetchColumn() ?: 0;
+    }
+
+    public function countPendingOrders() {
+        $sql = "SELECT COUNT(id) FROM orders WHERE status = 'processing'";
+        return $this->query($sql)->fetchColumn();
+    }
+
+    public function countCompletedOrders() {
+        $sql = "SELECT COUNT(id) FROM orders WHERE status = 'delivered'";
+        return $this->query($sql)->fetchColumn();
     }
     public function createCategory($category_name ){
         $sql = "INSERT INTO category(cat_name) values(?)";
