@@ -16,10 +16,18 @@ $url = $_GET['url'] ?? 'login';
 
 switch ($url) {
     case 'login':
+        if(isset($_SESSION['user_id'])) {
+            header("Location: index.php?url=" . ($_SESSION['role'] === 'admin' ? 'admin/home' : 'user/home'));
+            exit();
+        }
         $controller = new \App\Controllers\AuthController();
         $controller->login();
         break;
     case 'register':
+        if(isset($_SESSION['user_id'])) {
+            header("Location: index.php?url=" . ($_SESSION['role'] === 'admin' ? 'admin/home' : 'user/home'));
+            exit();
+        }
         $controller = new \App\Controllers\AuthController();
         $controller->register();
         break;
@@ -43,7 +51,9 @@ switch ($url) {
     case 'admin/update-product':
     case 'admin/trash':
     case 'admin/restore-product':
-
+    case 'admin/checks':
+    case 'admin/add-category':
+    case 'admin/storeCategory':
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -76,6 +86,18 @@ switch ($url) {
     }
     elseif($url === 'admin/restore-product'){
         $controller->restore();
+    }
+    elseif($url === 'admin/add-category'){
+    $controller->addCategory(); 
+    }
+    elseif($url === 'admin/storeCategory'){
+        $controller->storeCategory(); 
+    }
+    elseif($url === 'admin/checks'){
+        $user_id = $_GET['user_id'] ?? null;
+        $startDate = $_GET['start_date'] ?? null;
+        $endDate = $_GET['end_date'] ?? null;
+        $controller->getChecks($user_id, $startDate, $endDate);
     }
     elseif($url === 'admin/addUser'){
         $controller->addUser();

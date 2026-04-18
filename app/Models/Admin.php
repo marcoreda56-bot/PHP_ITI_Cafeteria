@@ -114,5 +114,9 @@ class Admin extends DatabaseHandler{
         $sql = "SELECT COUNT(id) FROM orders WHERE status = 'delivered'";
         return $this->query($sql)->fetchColumn();
     }
+    public function createCategory($category_name ){
+        $sql = "INSERT INTO category(cat_name) values(?)";
+        return $this->query($sql,[trim($category_name)]);
+    }
     }
 ?>
