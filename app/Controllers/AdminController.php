@@ -141,7 +141,39 @@ class AdminController {
         header("Location: index.php?url=admin/trashedUsers");
         exit();
     }
+    public function addCategory() {
+    $this->render('addCategory');
+    }
+    
+  public function storeCategory() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = trim($_POST['cat_name']);
 
+        if (empty($name)) {
+            return $this->render('addCategory', ['error' => "Category name cannot be empty!"]);
+        }
+
+        if (strlen($name) < 3) {
+            return $this->render('addCategory', ['error' => "Category name must be at least 3 characters."]);
+        }
+
+        try {
+            $existingCategories = $this->adminModel->getAllCategory();
+            foreach ($existingCategories as $cat) {
+                if (strtolower($cat['cat_name']) === strtolower($name)) {
+                    return $this->render('addCategory', ['error' => "The category '$name' already exists!"]);
+                }
+            }
+
+            $this->adminModel->createCategory($name);
+            header("Location: index.php?url=admin/add-product"); 
+            exit();
+        } catch (\PDOException $e) {
+            $errorMsg = "Error: " . $e->getMessage();
+            return $this->render('addCategory', ['error' => $errorMsg]);
+        }
+    }
+}
     public function storeProduct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = trim($_POST['product_name']);

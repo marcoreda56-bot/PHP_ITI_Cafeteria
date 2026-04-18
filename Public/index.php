@@ -52,6 +52,8 @@ switch ($url) {
     case 'admin/trash':
     case 'admin/restore-product':
     case 'admin/checks':
+    case 'admin/add-category':
+    case 'admin/storeCategory':
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -84,6 +86,12 @@ switch ($url) {
     }
     elseif($url === 'admin/restore-product'){
         $controller->restore();
+    }
+    elseif($url === 'admin/add-category'){
+    $controller->addCategory(); 
+    }
+    elseif($url === 'admin/storeCategory'){
+        $controller->storeCategory(); 
     }
     elseif($url === 'admin/checks'){
         $user_id = $_GET['user_id'] ?? null;

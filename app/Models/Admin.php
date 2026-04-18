@@ -100,6 +100,9 @@ class Admin extends DatabaseHandler{
         $sql= "UPDATE products set is_deleted=0 where id =?";
         return $this->query($sql,[$id]);
     }
-    
+    public function createCategory($category_name ){
+        $sql = "INSERT INTO category(cat_name) values(?)";
+        return $this->query($sql,[trim($category_name)]);
+    }
     }
 ?>

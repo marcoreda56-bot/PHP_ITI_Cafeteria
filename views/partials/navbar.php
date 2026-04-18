@@ -127,6 +127,10 @@
                     <a class="nav-link <?= str_contains($url, 'admin/products') ? 'active' : '' ?>"
                        href="index.php?url=admin/products">Products</a>
                 </li>
+                <li class="nav-item">
+        <a class="nav-link <?= ($url == 'admin/add-category') ? 'active' : '' ?>"
+           href="index.php?url=admin/add-category">Add Category</a>
+    </li>
 
                 <li class="nav-item">
                     <a class="nav-link <?= str_contains($url, 'admin/users') ? 'active' : '' ?>"
