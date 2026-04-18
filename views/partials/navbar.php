@@ -128,8 +128,8 @@
                        href="index.php?url=admin/products">Products</a>
                 </li>
                 <li class="nav-item">
-        <a class="nav-link <?= ($url == 'admin/add-category') ? 'active' : '' ?>"
-           href="index.php?url=admin/add-category">Add Category</a>
+        <a class="nav-link <?= str_contains($url, 'admin/categories') ? 'active' : '' ?>"
+           href="index.php?url=admin/categories">Categories</a>
     </li>
 
                 <li class="nav-item">
@@ -138,8 +138,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= ($url == 'admin/manual-order') ? 'active' : '' ?>"
-                       href="#">Manual Order</a>
+                    <a class="nav-link <?= ($url == 'admin/orders') ? 'active' : '' ?>"
+                       href="index.php?url=admin/orders">Manual Order</a>
                 </li>
 
                 <li class="nav-item">

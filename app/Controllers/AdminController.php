@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Models\Admin;
 use App\Models\Check;
+use App\Models\Order;
 
 class AdminController {
     protected $adminModel;
@@ -166,7 +167,7 @@ class AdminController {
             }
 
             $this->adminModel->createCategory($name);
-            header("Location: index.php?url=admin/add-product"); 
+            header("Location: index.php?url=admin/categories"); 
             exit();
         } catch (\PDOException $e) {
             $errorMsg = "Error: " . $e->getMessage();
@@ -174,6 +175,89 @@ class AdminController {
         }
     }
 }
+
+public function editCategory() {
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header("Location: index.php?url=admin/categories");
+        exit();
+    }
+    
+    $category = $this->adminModel->getCategoryById($id);
+    if (!$category) {
+        header("Location: index.php?url=admin/categories");
+        exit();
+    }
+    
+    $this->render('editCategory', ['category' => $category]);
+}
+
+public function updateCategory() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'] ?? null;
+        $name = trim($_POST['cat_name']);
+        
+        if (!$id) {
+            header("Location: index.php?url=admin/add-product");
+            exit();
+        }
+        
+        if (empty($name)) {
+            $category = $this->adminModel->getCategoryById($id);
+            return $this->render('editCategory', [
+                'category' => $category,
+                'error' => "Category name cannot be empty!"
+            ]);
+        }
+        
+        if (strlen($name) < 3) {
+            $category = $this->adminModel->getCategoryById($id);
+            return $this->render('editCategory', [
+                'category' => $category,
+                'error' => "Category name must be at least 3 characters."
+            ]);
+        }
+        
+        try {
+            $existingCategories = $this->adminModel->getAllCategory();
+            foreach ($existingCategories as $cat) {
+                // Check if name already exists (excluding current category)
+                if ($cat['id'] != $id && strtolower($cat['cat_name']) === strtolower($name)) {
+                    $category = $this->adminModel->getCategoryById($id);
+                    return $this->render('editCategory', [
+                        'category' => $category,
+                        'error' => "The category '$name' already exists!"
+                    ]);
+                }
+            }
+            
+            $this->adminModel->updateCategory($id, $name);
+            header("Location: index.php?url=admin/categories");
+            exit();
+        } catch (\PDOException $e) {
+            $category = $this->adminModel->getCategoryById($id);
+            return $this->render('editCategory', [
+                'category' => $category,
+                'error' => "Error: " . $e->getMessage()
+            ]);
+        }
+    }
+}
+
+public function deleteCategory() {
+    $id = $_GET['id'] ?? null;
+    if ($id) {
+        $this->adminModel->deleteCategory($id);
+    }
+    header("Location: index.php?url=admin/categories");
+    exit();
+}
+
+public function getCategories() {
+    $categories = $this->adminModel->getAllCategory();
+    $this->render('categories', ['categories' => $categories]);
+}
+
     public function storeProduct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = trim($_POST['product_name']);
@@ -278,6 +362,18 @@ class AdminController {
     public function getDeletedProducts() {
     $products = $this->adminModel->deletedProduct();
     $this->render('trash', ['products' => $products]);
+    }
+
+    public function getOrders() {
+        $orderModel = new Order();
+        $orders = $orderModel->getAllOrders();
+        
+        // Fetch items for each order
+        foreach ($orders as &$order) {
+            $order['items'] = $orderModel->getOrderItems($order['id']);
+        }
+        
+        $this->render('orders', ['orders' => $orders]);
     }
 
     function getChecks($one_user = null, $start_date = null, $end_date = null) {
