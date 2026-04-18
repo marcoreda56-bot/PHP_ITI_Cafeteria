@@ -6,3 +6,5 @@ Thumbs.db
 /vendor/
 *.log
 .env
+
+/Public/assets/
