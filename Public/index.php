@@ -51,11 +51,7 @@ switch ($url) {
     case 'admin/update-product':
     case 'admin/trash':
     case 'admin/restore-product':
-<<<<<<< HEAD
     case 'admin/checks':
-=======
-
->>>>>>> origin/main
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
         header("Location: index.php?url=login"); 
         exit(); 
@@ -89,13 +85,12 @@ switch ($url) {
     elseif($url === 'admin/restore-product'){
         $controller->restore();
     }
-<<<<<<< HEAD
     elseif($url === 'admin/checks'){
         $user_id = $_GET['user_id'] ?? null;
         $startDate = $_GET['start_date'] ?? null;
         $endDate = $_GET['end_date'] ?? null;
         $controller->getChecks($user_id, $startDate, $endDate);
-=======
+    }
     elseif($url === 'admin/addUser'){
         $controller->addUser();
     }
@@ -110,7 +105,6 @@ switch ($url) {
     }
     elseif($url === 'admin/restoreUser'){
         $controller->restoreUser();
->>>>>>> origin/main
     }
     else {
         $controller->index(); 
